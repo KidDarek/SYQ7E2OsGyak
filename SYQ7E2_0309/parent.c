@@ -1,21 +1,19 @@
-
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
+#include <stdio.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-int main(void)
-{
-    if((pid = fork()<0))
-    {
-        perror("fork error");
-    }
-    else if(pid == 0)
-    {
-        if(excel("./child.out", "child", (char*) NULL)<0)
-        {
-            perror("execl error");
-        }
-    }
-    exit(0);
+int main(){
+	pid_t pid;
+	if((pid=fork()) < 0)
+		perror("fork error");
+	else if(pid == 0){
+		if(execl("./child.out", "child", (char*)NULL) < 0)
+			perror("execl error");
+	}
+	if(waitpid(pid, NULL, 0) < 0)
+		perror("wait error");
+	else printf("Szulo megvarta a gyereket.\n");
+	exit(0);
 }
