@@ -1,1 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+void do_nothing();
+
+int main(void)
+{
+    printf("PID = %d\n", detpid());
+    signal(SIGTERM, do_nothing);
+    printf("Varok de meddig?\n");
+    pause();
+    printf("itt az alarm.\n");
+}
+void do_nothing()
+{
+    printf("do_nothing() fut\n");
+}
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(int argc, char **argv)
+{
+    int pid;
+    if(argc < 1)
+    {
+        perror("nincs kinek");
+        exit;
+    }
+    pid=atoi(argv[1]);
+    kill(pid, SIGTERM);
+}
+
 
