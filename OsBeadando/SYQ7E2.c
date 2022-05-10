@@ -22,11 +22,12 @@ int main()
 
 
 
-    // kiolvassuk mi lett a memóriába írva
+    // beolvassuk a memóriába 
     if(m == 'o')
     {
         FILE* fl;
 
+		// ellenõrzés hogy a file olvasható e 
         if ((fl=fopen("test.txt", "r")) == NULL)
         {
             printf("Openning file failed. error:\n");
@@ -34,13 +35,15 @@ int main()
             exit(1);
         }
 
-        // Fájl tartalmának olvasása majd kiírása a memóriaszegmensbe, pointer bezárása
+        // Fájl tartalmának beolvasása majd kiírása a memóriaszegmensbe, pointer bezárása
         fgets(str, 256, fl);
         fclose(fl);
 
         printf("written data: %s\n", str);
     }
 
+
+	//kiírjuk mi van a memóriában
     else if(m == 'i')
     {
         printf("A szegmensbol olvasott adat: %s\n",str);
@@ -57,10 +60,7 @@ int main()
 
     else
     {
-        // Lecsatlakozás a memóriaszegmensrõl
         shmdt(str);
-
-        // Memóriaszegmenst törlése
         shmctl(shmid, IPC_RMID, NULL);
         printf("Wrong input");
         exit(1);
