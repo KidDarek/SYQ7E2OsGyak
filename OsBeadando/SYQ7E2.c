@@ -11,23 +11,23 @@ int main()
     printf("Beolvasas/Kiiras/torles (o/i/t)");
     char m = getchar();
 
-    // Kulcs lÈtrehoz·sa
-    key_t kulcs = ftok("shmf",65);
+    // Kulcs l√©trehoz√°sa
+    key_t kulcs = ftok("shmf",72);
 
-    // Az shmget egy azonosÌtÛt ad vissza az shmid-vel Ès az IPC_Creat lÈtrehozza az osztott memÛri·t
+    // Az shmget egy azonos√≠t√≥t ad vissza az shmid-vel √©s az IPC_Creat l√©trehozza az osztott mem√≥ri√°t
     int shmid = shmget(kulcs, 1024, 0666|IPC_CREAT);
 
-    // shmat-al csatlakozunk a memÛriaszegmensre
+    // shmat-al csatlakozunk a mem√≥riaszegmensre
     char* str = (char*) shmat(shmid,NULL,0);
 
 
 
-    // beolvassuk a memÛri·ba 
+    // beolvassuk a mem√≥ri√°ba 
     if(m == 'o')
     {
         FILE* fl;
 
-		// ellenırzÈs hogy a file olvashatÛ e 
+		// ellen≈ërz√©s hogy a file olvashat√≥ e 
         if ((fl=fopen("test.txt", "r")) == NULL)
         {
             printf("Openning file failed. error:\n");
@@ -35,7 +35,7 @@ int main()
             exit(1);
         }
 
-        // F·jl tartalm·nak beolvas·sa majd kiÌr·sa a memÛriaszegmensbe, pointer bez·r·sa
+        // F√°jl tartalm√°nak beolvas√°sa majd ki√≠r√°sa a mem√≥riaszegmensbe, pointer bez√°r√°sa
         fgets(str, 256, fl);
         fclose(fl);
 
@@ -43,7 +43,7 @@ int main()
     }
 
 
-	//kiÌrjuk mi van a memÛri·ban
+	//ki√≠rjuk mi van a mem√≥ri√°ban
     else if(m == 'i')
     {
         printf("A szegmensbol olvasott adat: %s\n",str);
@@ -51,10 +51,10 @@ int main()
 
     else if(m == 't')
     {
-        // Lecsatlakoz·s a memÛriaszegmensrıl
+        // Lecsatlakoz√°s a mem√≥riaszegmensr≈ël
         shmdt(str);
 
-        // MemÛriaszegmenst tˆrlÈse
+        // Mem√≥riaszegmenst t√∂rl√©se
         shmctl(shmid, IPC_RMID, NULL);
     }
 
